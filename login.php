@@ -7,13 +7,23 @@
     <link rel="stylesheet" href="css/main.css" />
     <link href="css/bootstrap.min.css" rel="stylesheet">
     <style>
-        div {
-            padding: 10px;
-            font-size: 16px;
-        }
+    div {
+        padding: 10px;
+        font-size: 16px;
+    }
     </style>
     <title>ログイン</title>
 </head>
+
+<?php
+session_start();
+$referer = $_SERVER['HTTP_REFERER'];
+echo $referer."\n";
+
+echo "\n".'※ここに来る前にいたページ。外部サイトから来た場合は、コードエラーが表示されます';
+
+
+?>
 
 <body>
 
@@ -38,5 +48,9 @@
 
 
 </body>
+
+<?php
+  print_r( $_SERVER );
+?>
 
 </html>

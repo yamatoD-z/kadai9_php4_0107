@@ -1,29 +1,24 @@
 <?php
-// 0. SESSION開始！！
 session_start();
-
-// 1. ログインチェック処理！
-// 以下、セッションID持ってたら、ok
-// 持ってなければ、閲覧できない処理にする。
-// if (!isset($_SESSION['chk_ssid']) || $_SESSION['chk_ssid'] !=session_id() ) {
-// exit('LOGIN ERROR');
-
-    
-// }else{
-//     session_regenerate_id(true);
-//     $_SESSION['chk_ssid'] = session_id();
-// }
-
-//１．関数群の読み込み
 require_once('funcs.php');
 loginCheck();
 
-//２．データ登録SQL作成
+// どのページから来たのかチェックする部分
+$referer = $_SERVER['HTTP_REFERER'];
+$target_ref = 'http://localhost/gs_code/kadai9_php4_0107/login.php';
+$target_host = 'http://localhost/gs_code/kadai9_php4_0107/detail.php';
+if( $referer === $target_ref || false !== strpos($referer, $target_host)) {
+echo $referer;
+  echo ' (正しい遷移です)';
+} else {  
+    header('Location: error.php');
+}
+
 $pdo = db_conn();
 $stmt = $pdo->prepare('SELECT * FROM gs_an_table');
 $status = $stmt->execute();
 
-//３．データ表示
+
 $view = '';
 if ($status == false) {
     sql_error($stmt);

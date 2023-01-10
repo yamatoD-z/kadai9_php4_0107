@@ -3,16 +3,27 @@ session_start();
 require_once('funcs.php');
 loginCheck();
 
-$id = $_GET['id']; //?id~**を受け取る
+
+// どのページから来たのかチェックする部分
+$referer = $_SERVER['HTTP_REFERER'];
+$target_ref = 'http://localhost/gs_code/kadai9_php4_0107/select.php';
+if( $referer === $target_ref ) {
+echo $referer;
+  echo ' (正しい遷移です)';
+} else {  
+    header('Location: error.php');
+}
+
+$id = $_GET['id']; 
 require_once('funcs.php');
 $pdo = db_conn();
 
-//２．データ登録SQL作成
+
 $stmt = $pdo->prepare('SELECT * FROM gs_an_table WHERE id=:id;');
 $stmt->bindValue(':id', $id, PDO::PARAM_INT);
 $status = $stmt->execute();
 
-//３．データ表示
+
 if ($status == false) {
     sql_error($stmt);
 } else {
